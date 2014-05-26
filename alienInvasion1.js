@@ -86,4 +86,56 @@ function update()
   render();
 }
 
+function loadHandler()
+{
+  assetsLoaded++;
+  if(assetsLoaded === assetsToLoad.length)
+  {
+    image.removeEventListener("load", loadHandler, false);
+    gameState = PLAYING;
+  }
+}
+
+function playGame()
+{
+  if(moveLeft && !moveRight)
+  {
+    cannon.vx = -8;
+  }
+  if(moveRight && !moveLeft)
+  {
+    cannon.vx = 8;
+  }
+  if(!moveLeft && !moveRight)
+  {
+    cannon.vx = 0;
+  }
+  cannon.x = Math.max(0, Math.min(cannon.x + cannon.vx, canvas.width - cannon.width));
+}
+
+function endGame()
+{
+
+}
+
+function render()
+{
+  drawingSurface.clearRect(0, 0, canvas.width, canvas.height);
+  if(sprites.length !== 0)
+  {
+    for(var i = 0; i < sprites.length; i++)
+    {
+      var sprite = sprites[i];
+      drawingSurface.drawImage
+      (
+        image,
+        sprite.sourceX, sprite.sourceY,
+        srite.sourceWidth, sprite.sourceHeight,
+        Math.floor(sprite.x), Math.floor(sprite.y),
+        sprite.width, sprite.height
+      );
+    }
+  }
+}
+
 }());
