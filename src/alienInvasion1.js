@@ -50,6 +50,26 @@ var spaceKeyIsDown = false;
 var moveRight = false;
 var moveLeft = false;
 
+var scoreDisplay = Object.create(messageObject);
+scoreDisplay.font = "normal bold 30px emulogic";
+scoreDisplay.fillStyle = "00FF00";
+scoreDisplay.x = 400;
+scoreDisplay.y = 10;
+messages.push(scoreDisplay);
+
+var gameOverMessage = Object.create(messageObject);
+gameOverMessage.font = "normal bold 20px emulogic";
+gameOverMessage.fillStyle = "00FF00";
+gameOverMessage.x = 70;
+gameOverMessage.y = 120;
+gameOverMessage.visible = false;
+messages.push(gameOverMessage);  
+
+scoreDisplay.text = score;
+if(score === scoreNeededToWin)
+{
+  gameState = OVER;
+}
 
 window.addEventListener("keydown", function(event)
 {
@@ -252,7 +272,16 @@ function removeObject(ObjectToRemove, array)
 
 function endGame()
 {
-  console.log("Game Over!");
+  gameOverMessage.visible = true;
+  if(score < scoreNeededToWin)
+  {
+    gameOverMessage.text = "EARTH DESTROYED!";
+  }
+  else
+  {
+    gameOverMessage.x = 120;
+    gameOverMessage.text = "EARTH SAVED!";
+  }
 }
 
 function render()
