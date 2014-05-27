@@ -4,7 +4,9 @@ var canvas = document.querySelector("canvas");
 var drawingSurface = canvas.getContext("2d");
 var sprites = [];
 var assetsToLoad = [];
-
+var aliens = [];
+var alienFrequency = 100;
+var alienTimer = 0;
 
 
 var background = Object.create(spriteObject);
@@ -145,6 +147,32 @@ function playGame()
       i--;
     }
   }
+
+  alienTimer++;
+  if(alienTimer === alienFrequency)
+  {
+    makeAlien();
+    alienTimer = 0;
+
+    if(alienFrequency > 2)
+    {
+      alienFrequency--;
+    }
+  }
+
+  for(var i = 0; i < aliens.length; i++)
+  {
+    var alien = aliens[i];
+    if(alien.state === alien.NORMAL)
+    {
+      alien.y += alien.vy;
+    }
+    if(alien.y > canvas.height + alien.height)
+    {
+      gameState = OVER;
+    }
+  }
+  
 }
 
 function fireMissile()
@@ -164,6 +192,18 @@ function fireMissile()
   missiles.push(missile);
 }
 
+function makeAlien()
+{
+  var alien = Object.create(alienObject);
+  alien.sourceX = 32;
+  alien.y = 0 - alien.height;
+  var randomPosition = Math.floor(Math.random() * 15);
+  alien.x = randomPosition * alien.width;
+  alien.vy = 1;
+  sprites.push(alien);
+  aliens.push(alien);
+}
+
 function removeObject(ObjectToRemove, array)
 {
   var i = array.indexOf(ObjectToRemove);
@@ -175,7 +215,7 @@ function removeObject(ObjectToRemove, array)
 
 function endGame()
 {
-
+  console.log("Game Over!");
 }
 
 function render()
