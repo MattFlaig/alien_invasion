@@ -9,6 +9,7 @@ var alienFrequency = 100;
 var alienTimer = 0;
 var score = 0;
 var scoreNeededToWin = 60;
+var messages = [];
 
 
 var background = Object.create(spriteObject);
@@ -270,6 +271,21 @@ function render()
         Math.floor(sprite.x), Math.floor(sprite.y),
         sprite.width, sprite.height
       );
+    }
+  }
+
+  if(messages.length !== 0)
+  {
+    for(var i = 0; i < messages.length; i++)
+    {
+      var message = messages[i];
+      if(message.visible)
+      {
+        drawingSurface.font = message.font;
+        drawingSurface.fillStyle = message.fillstyle;
+        drawingSurface.textBaseline = message.textBaseline;
+        drawingSurface.fillText(message.text, message.x, message.y);
+      }
     }
   }
 }
