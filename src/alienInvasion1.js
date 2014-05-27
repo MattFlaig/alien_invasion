@@ -7,6 +7,8 @@ var assetsToLoad = [];
 var aliens = [];
 var alienFrequency = 100;
 var alienTimer = 0;
+var score = 0;
+var scoreNeededToWin = 60;
 
 
 var background = Object.create(spriteObject);
@@ -172,6 +174,25 @@ function playGame()
       gameState = OVER;
     }
   }
+
+  for(var i = 0; i < aliens.length; i++)
+  {
+    var alien = aliens[i];
+    for(var j = 0; j < missiles.length; j++)
+    {
+      var missile = missiles[j];
+
+      if(hitTestRectangle(missile, alien)
+      && alien.state === alien.NORMAL)
+      {
+        destroyAlien(alien);
+        score++;
+        removeObject(missile, missiles);
+        removeObject(missile, sprites);
+        j--;
+      }
+    }
+  }
   
 }
 
@@ -203,6 +224,21 @@ function makeAlien()
   sprites.push(alien);
   aliens.push(alien);
 }
+
+function destroyAlien(alien)
+{
+  alien.state = alien.EXPLODED;
+  alien.update();
+  setTimeout(removeAlien, 1000);
+  
+  function removeAlien()
+  {
+    removeObject(alien, aliens);
+    removeObject(alien, sprites);
+  }
+}
+
+
 
 function removeObject(ObjectToRemove, array)
 {
