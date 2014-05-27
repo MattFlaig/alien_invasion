@@ -13,6 +13,8 @@ background.y = 0;
 background.sourceY = 32;
 background.sourceWidth = 480;
 background.sourceHeight = 320;
+background.width = 480;
+background.height = 320;
 sprites.push(background);
 
 var cannon = Object.create(spriteObject);
@@ -188,7 +190,7 @@ function render()
       (
         image,
         sprite.sourceX, sprite.sourceY,
-        srite.sourceWidth, sprite.sourceHeight,
+        sprite.sourceWidth, sprite.sourceHeight,
         Math.floor(sprite.x), Math.floor(sprite.y),
         sprite.width, sprite.height
       );
